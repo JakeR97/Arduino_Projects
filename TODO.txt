@@ -1,0 +1,3 @@
+- Get input from the microphone
+- Frequency Analysis using FFT
+- Turn frequency into colors
