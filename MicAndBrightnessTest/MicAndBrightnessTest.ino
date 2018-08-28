@@ -1,3 +1,17 @@
+#include <arduinoFFT.h>
+
+ 
+#define SAMPLES 128             //Must be a power of 2
+#define SAMPLING_FREQUENCY 1000 //Hz, must be less than 10000 due to ADC
+
+arduinoFFT FFT = arduinoFFT();
+
+double vReal[SAMPLES];
+double vImag[SAMPLES];
+
+unsigned int sampling_period_us;
+unsigned long microseconds;
+
 //Identify the pins used to send voltage to RGB wires in the LED strip
 int RED = 3;
 int GREEN = 5;
@@ -12,6 +26,8 @@ unsigned int sample;
 
 void setup() {
   Serial.begin(9600);
+
+  sampling_period_us = round(1000000*(1.0/SAMPLING_FREQUENCY));
   
   //Initialize RGB pins
   pinMode(RED, OUTPUT);
@@ -72,6 +88,8 @@ void loop() {
        
       unsigned int signalMax = 0;
       unsigned int signalMin = 1024;
+
+      
        
       // collect data for 50 mS
       while (millis() - startMillis < sampleWindow) {
@@ -113,6 +131,11 @@ void loop() {
 //RGB color scheme used
 int flipVal(int num) {
   return abs(num - 255);
+}
+
+
+void fft() {
+  FF
 }
 
 void writeColor(int color, double invVol) {
