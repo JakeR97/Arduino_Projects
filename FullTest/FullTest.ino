@@ -128,23 +128,21 @@ void loop() {
     Serial.println("Start Freq Analysis");
     //Serial.println("==========================================");
     double avg = 0;
-    int slower = FHT_N;
-    for (int i = 0; i < slower; i++) {
+    for (int i = 0; i < 128; i++) {
       avg += fht_lin_out[i];
       //Serial.println(fht_lin_out[i]);
     }
-    avg /= slower;
+    avg /= 128;
     double f = avg - 113;
     color = f * 5;
-    int add = 2000;
-    int scale = 50;
-    int del = 105;
+    int add = 1000;
+    int scale = 5;
     color = ((color + add) / scale) % 102;   
-    color = color % 102;
-    if (color < 0) color *= -1;
     Serial.println(color);
-
     // --------------------- Write Color to Lights ---------------------//
+    int del = (102 - color) * 2;
+    int MIN_DEL = 70;
+    del = del < MIN_DEL ? MIN_DEL : del;
     delay(del);
     writeColor(color, invVolume);
   }
